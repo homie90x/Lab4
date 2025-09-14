@@ -20,7 +20,7 @@ public class Main {
 
         int B = input.nextInt();
 
-        int[] items = new int[n];
+        Integer[] items = new Integer[n];
 
             System.out.println("Enter the sizes of the items:");
 
@@ -30,45 +30,41 @@ public class Main {
         input.close();
     
         //sorts in decreasing
-        Arrays.sort(items);
-            for (int i = 0; i < n/2; i++) {
-                int tmp = items[i];
-                items[i] = items[n - 1 - i];
-                items[n - 1 - i] = tmp;
+        Arrays.sort(items, Collections.reverseOrder());
 
-            }    
-        
-        System.out.println("Number of items: " + n);
-        System.out.println("Bin capacity: " + B);
-        System.out.println("Items to be packed: " + Arrays.toString(items));
         input.close();
-    
 
-    //3 bins
-
-      ArrayList<Integer>[] bins = new ArrayList[3];
-        int[] used = new int[3]; 
-        for (int i = 0; i < 3; i++) bins[i] = new ArrayList<>();
-    
-    //list for items that cant be placed into any of the bins
-
-    ArrayList<Integer> unpacked = new ArrayList<>();
-
-    //Looping through each item 
-    for( int item : items) {
-        boolean placed = false; //item not placed into a bin yet
-        for(int b = 0; b < 3; b++) {
-            if (used[b] + item <= b) {   // if item fits into bin (1 through 3)
-                bins[b].add(item); //then it adds the item into that bin (whichever one it fits into 1-3)
-                used[b] += item;
-                placed = true;
-                break; //if placed then stops the loop
+       // First Fit (decreasing) Bin Packing for 3 bins
+            int binCount = 3;
+            int[] binSpace = new int[binCount];
+            Arrays.fill(binSpace, B);
+            List<List<Integer>> bins = new ArrayList<>();
+            for (int i = 0; i < binCount; i++) {
+                bins.add(new ArrayList<>());
             }
+
+            for (int item : items) {
+                boolean packed = false;
+                for (int i = 0; i < binCount; i++) {
+                    if (binSpace[i] >= item) {
+                        bins.get(i).add(item);
+                        binSpace[i] -= item;
+                        packed = true;
+                        break;
+                    }
+                }
+                if (!packed) {
+                    System.out.println("Item " + item + " could not be packed in any bin.");
+                }
+            }
+
+            // Print bins and their remaining space
+            System.out.println("Packing Result:");
+            for (int i = 0; i < binCount; i++) {
+                System.out.println("Bin " + (i+1) + ": " + bins.get(i) + " (used " + (B-binSpace[i]) + "/" + B + ")");
+            }
+            int unused = 0;
+            for (int i = 0; i < binCount; i++) unused += binSpace[i];
+            System.out.println("Total unused space: " + unused);
         }
-        if (!placed) unpacked.add(item); //this is to store the item if it doesnt fit into a bin
-
-        
-    }
-}
-
 }
