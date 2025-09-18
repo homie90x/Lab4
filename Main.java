@@ -46,13 +46,12 @@ public class Main {
 
         input.close();
     
-        //sorts in decreasing, efficiency of O(n log n)
+        //sorts in decreasing
         Arrays.sort(items, Collections.reverseOrder());
 
         input.close();
 
-       // First Fit (decreasing) Bin Packing for 3 bins, this has a time complexity of Θ(n),
-       // where n is the number of items to be packed. O(n) since there is a fixed number of bins.
+       // First Fit (decreasing) Bin Packing for 3 bins
             int binCount = 3;
             int[] binSpace = new int[binCount];
             Arrays.fill(binSpace, B);
