@@ -1,7 +1,7 @@
 
 import java.util.*;
 
-public class BinPackingSimple {
+public class BinPacking {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
